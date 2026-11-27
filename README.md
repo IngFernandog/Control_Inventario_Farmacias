@@ -3,7 +3,7 @@ Sistema en Python para controlar el inventario de medicamentos, consultar próxi
 
 ## Estado del desarrollo
 
-Esta rama prepara la interfaz web con Flask y la persistencia en MariaDB (XAMPP).
+Esta rama prepara la interfaz web con Flask y la persistencia en MySQL Server 8.0.
 Ya están implementados el modelo, hash, AVL, BST de contraste, cola enlazada,
 grafo y los comparadores de EXP-01 y EXP-03. Las pruebas de estas estructuras
 se ejecutan con Python 3.10 o superior desde la raíz.
@@ -12,7 +12,7 @@ La estructura nueva está lista para desarrollar:
 
 - `main.py` y `src/rutas.py`: arranque de Flask y operaciones web.
 - `templates/index.html`, `static/css/estilos.css` y `static/js/app.js`: interfaz.
-- `sql/esquema.sql` y `src/persistencia.py`: esquema y acceso a MariaDB.
+- `sql/esquema.sql` y `src/persistencia.py`: esquema y acceso a MySQL Server 8.0.
 - `tests/test_web.py` y `tests/test_persistencia.py`: futuras pruebas de integración.
 - `requirements.txt`: dependencias web y de conexión; instalar con
   `python -m pip install -r requirements.txt` en el entorno virtual del proyecto.
@@ -20,6 +20,22 @@ La estructura nueva está lista para desarrollar:
 Los CSV de `datos/` conservan los encabezados para la carga inicial.
 El servidor, la conexión, el esquema SQL, el gestor, el heap, la carga de datos
 y el medidor general quedan pendientes de implementación.
+
+## Base de datos del proyecto
+
+El equipo utiliza MySQL Community Server 8.0 (versión comprobada: 8.0.46).
+MySQL Workbench es el cliente de administración. Para preparar la base local:
+
+1. Abrir en Workbench la conexión al servidor MySQL correspondiente.
+   En el equipo de Fernando, la conexión guardada es `GRFM_LOCAL` en `127.0.0.1:3306`.
+2. Abrir y ejecutar `sql/esquema.sql`. El script crea y selecciona la base
+   `control_inventario_farmacias`. Puede repetirse si la base ya existe.
+3. Actualizar el panel **Schemas** de Workbench para ver la base.
+
+Python usará PyMySQL para conectarse al servidor. La dependencia incluye el
+soporte RSA para cuentas MySQL 8 que usan `caching_sha2_password`.
+El script inicial prepara la base; las tablas y la conexión de la aplicación
+forman parte de la implementación pendiente.
 
 ## Ejecución de pruebas
 
