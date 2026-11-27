@@ -3,13 +3,23 @@ Sistema en Python para controlar el inventario de medicamentos, consultar próxi
 
 ## Estado del desarrollo
 
-Implementadas las partes de Fernando y Harold: modelo del dominio, hash propio
-por encadenamiento enlazado, AVL, BST iterativo de contraste, pruebas y operaciones
-de EXP-01 y EXP-03. Se usa únicamente la biblioteca estándar de Python 3.10 o superior.
+Esta rama prepara la interfaz web con Flask y la persistencia en MariaDB (XAMPP).
+Ya están implementados el modelo, hash, AVL, BST de contraste, cola enlazada,
+grafo y los comparadores de EXP-01 y EXP-03. Las pruebas de estas estructuras
+se ejecutan con Python 3.10 o superior desde la raíz.
 
-Los módulos de heap, cola, grafo, gestor, carga, menú y medidor general todavía
-están pendientes. Los CSV actuales solo contienen encabezados. La aplicación
-integral y las mediciones finales requieren esas partes.
+La estructura nueva está lista para desarrollar:
+
+- `main.py` y `src/rutas.py`: arranque de Flask y operaciones web.
+- `templates/index.html`, `static/css/estilos.css` y `static/js/app.js`: interfaz.
+- `sql/esquema.sql` y `src/persistencia.py`: esquema y acceso a MariaDB.
+- `tests/test_web.py` y `tests/test_persistencia.py`: futuras pruebas de integración.
+- `requirements.txt`: dependencias web y de conexión; instalar con
+  `python -m pip install -r requirements.txt` en el entorno virtual del proyecto.
+
+Los CSV de `datos/` conservan los encabezados para la carga inicial.
+El servidor, la conexión, el esquema SQL, el gestor, el heap, la carga de datos
+y el medidor general quedan pendientes de implementación.
 
 ## Ejecución de pruebas
 
@@ -137,7 +147,7 @@ resultados de rendimiento.
 | Inmundo | `src/heap.py`, `tests/test_heap.py`, `experimentos/comparar_heap.py` |
 | Marciano | `src/cola.py`, `src/grafo.py`, `tests/test_red_cola.py` |
 | Garrido | `src/gestor.py`, `tests/test_gestor.py` |
-| Fernandito | `main.py`, `src/datos.py`, `tests/test_consola.py`, `experimentos/medir.py` y CSV |
+| Fernandito | `main.py`, `src/datos.py`, `tests/test_web.py`, `experimentos/medir.py` y CSV |
 
 Marciano explica teóricamente lista/matriz del grafo. Se mantienen los tres
 experimentos principales del contrato. Informe, presentación, acta y fichas de

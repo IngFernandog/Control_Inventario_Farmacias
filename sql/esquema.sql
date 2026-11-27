@@ -1,0 +1,1 @@
+-- Esquema de MariaDB para medicamentos, sedes, lotes, movimientos, solicitudes y conexiones.
