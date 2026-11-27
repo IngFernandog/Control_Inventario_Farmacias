@@ -27,7 +27,7 @@ class PersistenciaMySQL:
         self.puerto = puerto
         self.base_datos = "control_inventario_farmacias"
 
-    def conectar(self):
+    def conectar(self):  # sourcery skip: inline-immediately-returned-variable
         conexion = pymysql.connect(
             host=self.host,
             user=self.usuario,
@@ -58,7 +58,7 @@ class PersistenciaMySQL:
     # 2. MEDICAMENTOS
     # --------------------------------------------------------
 
-    def guardar_medicamento(self, medicamento):
+    def guardar_medicamento(self, medicamento):  # sourcery skip: extract-method
         conexion = self.conectar()
 
         try:
@@ -105,13 +105,7 @@ class PersistenciaMySQL:
             if fila is None:
                 return None
 
-            medicamento = Medicamento(
-                fila["id_medicamento"],
-                fila["denominacion"]
-            )
-
-            return medicamento
-
+            return Medicamento(fila["id_medicamento"], fila["denominacion"])
         finally:
             conexion.close()
 
@@ -191,7 +185,7 @@ class PersistenciaMySQL:
     # 4. LOTES
     # --------------------------------------------------------
 
-    def guardar_lote(self, lote):
+    def guardar_lote(self, lote):  # sourcery skip: extract-method
         conexion = self.conectar()
 
         try:
@@ -244,17 +238,14 @@ class PersistenciaMySQL:
             if fila is None:
                 return None
 
-            lote = Lote(
+            return Lote(
                 fila["id_lote"],
                 fila["id_medicamento"],
                 fila["sede"],
                 fila["vencimiento"],
                 fila["cantidad"],
-                bool(fila["activo"])
+                bool(fila["activo"]),
             )
-
-            return lote
-
         finally:
             conexion.close()
 
@@ -293,6 +284,7 @@ class PersistenciaMySQL:
             conexion.close()
 
     def cambiar_estado_lote(self, id_lote, activo):
+        # sourcery skip: extract-method
         if type(activo) is not bool:
             raise TypeError("El estado debe ser booleano")
 
@@ -327,6 +319,7 @@ class PersistenciaMySQL:
     # --------------------------------------------------------
 
     def registrar_movimiento(self, id_op, id_lote, delta):
+        # sourcery skip: extract-method
 
         if type(delta) is not int or delta == 0:
             raise ValueError("Movimiento invalido")
@@ -444,6 +437,7 @@ class PersistenciaMySQL:
             conexion.close()
 
     def consultar_stock(self, id_medicamento, sede):
+        # sourcery skip: assign-if-exp, reintroduce-else
         conexion = self.conectar()
 
         try:
@@ -601,6 +595,7 @@ class PersistenciaMySQL:
             conexion.close()
 
     def bloquear_conexion(self, origen, destino):
+        # sourcery skip: extract-method
 
         if origen > destino:
             origen, destino = destino, origen
@@ -667,9 +662,8 @@ class PersistenciaMySQL:
     def cargar_estado(self):
         """Recupera todos los datos para reconstruir los TAD."""
 
-        estado = {}
+        estado = {"medicamentos": self.listar_medicamentos()}
 
-        estado["medicamentos"] = self.listar_medicamentos()
         estado["sedes"] = self.listar_sedes()
         estado["lotes"] = self.listar_lotes()
         estado["solicitudes"] = self.listar_solicitudes()
